@@ -21,7 +21,7 @@ jobs:
           node-version: '16'
 
       - id: versioning
-        uses: ./.github/actions/version
+        uses: ./actions/version
     outputs:
       version: ${{ steps.versioning.outputs.new_version }}    
       skip: ${{ steps.versioning.outputs.skip }}
@@ -39,13 +39,7 @@ jobs:
         with:
             submodules: recursive
 
-      - uses: ./.github/actions/update-json
-        with:
-          file: "library.json"
-          parameter: "version"
-          value: ${{ needs.version.outputs.version }}
-
       - name: Tagging new version
-        uses: ./.github/actions/tag
+        uses: ./actions/tag
         with: 
           version: ${{ needs.version.outputs.version }}
