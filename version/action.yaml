@@ -1,0 +1,49 @@
+name: 'Versioning'
+description: 'Create a new semantic version'
+
+outputs:
+  old_version:
+    description: "Current tagged version"
+    value: ${{ steps.generate_version.outputs.old_version_out }}
+  new_version:
+    description: "New version to be tagged"
+    value: ${{ steps.generate_version.outputs.new_version_out }}
+  skip:
+    description: "True if no version increase needed"
+    value: ${{ steps.generate_version.outputs.skip_version_out }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Version
+      id: generate_version
+      run: |
+        # delete unneccesary files
+        [ -f package-lock.json ] && rm package-lock.json > /dev/null 2>&1
+        # rename package.json if existst to avoid collision with standard-version
+        [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
+
+        npm install -g standard-version > /dev/null 2>&1
+        git config --global user.email "Emanuel@merckgroup.com"
+        git config --global user.name "Emanuel Merck"
+        current_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
+        standard-version --skip.commit > /dev/null 2>&1
+        new_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
+        echo
+        echo "Current version:    $current_version"
+        echo "New version set to: $new_version"
+        echo
+
+        # rename package.json back to original
+        [ -f package.json.back ] && mv package.json.back package.json
+
+        # generate output variables
+        echo "old_version_out=$current_version" >> "$GITHUB_OUTPUT"
+        echo "new_version_out=$new_version" >> "$GITHUB_OUTPUT"
+
+        if [ "$current_version" = "$new_version" ]; then
+            echo "skip_version_out=true" >> "$GITHUB_OUTPUT"
+        else
+            echo "skip_version_out=false" >> "$GITHUB_OUTPUT"
+        fi
+      shell: bash

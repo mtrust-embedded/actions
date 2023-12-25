@@ -1,0 +1,26 @@
+name: 'Build PIO Project'
+description: 'Greet someone'
+inputs:
+  makefile_action:
+    description: 'action to perform'
+    required: false
+    default: run
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.platformio/.cache
+        key: ${{ runner.os }}-pio
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    - name: Install PlatformIO Core
+      run: pip install --upgrade platformio
+      shell: bash
+
+    - name: Build PlatformIO Project
+      run: make ${{ inputs.makefile_action }}
+      shell: bash

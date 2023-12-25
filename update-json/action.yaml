@@ -1,0 +1,33 @@
+name: 'Change json parameter'
+description: 'Change json parameter'
+inputs:
+  file:
+    description: 'json file to change'
+    required: true
+  parameter:
+    description: 'parameter to change'
+    required: true
+  value:
+    description: 'value to set'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install jq
+      uses: dcarbone/install-jq-action@v2.1.0
+
+    - name: update version
+      run: |
+        cp ${{ inputs.file }} tmp.json
+        jq '.${{ inputs.parameter }} = "${{ inputs.value }}"' tmp.json > ${{ inputs.file }}
+        rm tmp.json
+      shell: bash
+
+    - name: commit new version file
+      run: |
+        git config --global user.email "emanuel@merckgroup.com"
+        git config --global user.name "Emanuel Merck"
+        git add ${{ inputs.file }}
+        git commit -m "chore: versioning via CI [skip ci]"
+        git push
+      shell: bash

@@ -1,0 +1,23 @@
+name: 'Release Package'
+description: 'Release Package'
+
+inputs:
+  version:
+    description: 'version'
+    required: true
+  artifact:
+    description: 'pio environment'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: test
+      run: ls
+      shell: bash
+
+    - uses: ncipollo/release-action@v1
+      with:
+        name: "v${{ inputs.version}} Firmware Package"
+        artifacts: ${{ inputs.artifact }}
+        tag: v${{ inputs.version }}

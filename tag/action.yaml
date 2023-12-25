@@ -1,0 +1,21 @@
+name: 'Versioning'
+description: 'Create a new tag with sematic version'
+
+inputs:
+  version:
+    description: 'version to be tagged'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Pushing tag
+      run: |
+        echo
+        echo "Version published with ${{ inputs.version }}"
+        echo
+        git config --global user.email "emanuel@merckgroup.com"
+        git config --global user.name "Emanuel Merck"
+        git tag v${{ inputs.version }}
+        git push origin v${{ inputs.version }}
+      shell: bash

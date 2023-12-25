@@ -1,0 +1,20 @@
+name: 'Install SSH KEYS'
+description: 'Installing SSH Keys'
+
+inputs:
+  id_rsa:
+    description: 'id_rsa'
+    required: true
+  id_rsa_pub:
+    description: 'id_rsa_pub'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        mkdir -p $HOME/.ssh
+        echo "${{ inputs.id_rsa }}" > $HOME/.ssh/id_rsa
+        chmod 400 $HOME/.ssh/id_rsa
+        echo "${{ inputs.id_rsa_pub }}" > $HOME/.ssh/id_rsa.pub
+      shell: bash
