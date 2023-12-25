@@ -5,6 +5,14 @@ inputs:
   version:
     description: 'version to be tagged'
     required: true
+  email: 
+    description: 'email of the commit user'
+    required: false
+    default: user@domain.com
+  name:
+    description: 'name of the commit user'
+    required: false
+    default: CI
 
 runs:
   using: "composite"
@@ -14,8 +22,8 @@ runs:
         echo
         echo "Version published with ${{ inputs.version }}"
         echo
-        git config --global user.email "emanuel@merckgroup.com"
-        git config --global user.name "Emanuel Merck"
+        git config --global user.email "${{ email }}"
+        git config --global user.name "${{ name }}"
         git tag v${{ inputs.version }}
         git push origin v${{ inputs.version }}
       shell: bash

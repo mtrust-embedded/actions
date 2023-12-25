@@ -1,0 +1,51 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with: 
+            fetch-depth: 0
+            submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - id: versioning
+        uses: ./.github/actions/version
+    outputs:
+      version: ${{ steps.versioning.outputs.new_version }}    
+      skip: ${{ steps.versioning.outputs.skip }}
+
+  release:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    needs: [version]
+    if: ${{ needs.version.outputs.skip }} == 'false'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4       
+        with:
+            submodules: recursive
+
+      - uses: ./.github/actions/update-json
+        with:
+          file: "library.json"
+          parameter: "version"
+          value: ${{ needs.version.outputs.version }}
+
+      - name: Tagging new version
+        uses: ./.github/actions/tag
+        with: 
+          version: ${{ needs.version.outputs.version }}

@@ -1,6 +1,16 @@
 name: 'Versioning'
 description: 'Create a new semantic version'
 
+inputs:
+  email: 
+    description: 'email of the commit user'
+    required: false
+    default: user@domain.com
+  name:
+    description: 'name of the commit user'
+    required: false
+    default: CI
+
 outputs:
   old_version:
     description: "Current tagged version"
@@ -24,8 +34,8 @@ runs:
         [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
 
         npm install -g standard-version > /dev/null 2>&1
-        git config --global user.email "Emanuel@merckgroup.com"
-        git config --global user.name "Emanuel Merck"
+        git config --global user.email "${{ email }}"
+        git config --global user.name "${{ name }}""
         current_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
         standard-version --skip.commit > /dev/null 2>&1
         new_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)

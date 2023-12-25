@@ -10,6 +10,14 @@ inputs:
   value:
     description: 'value to set'
     required: true
+  email: 
+    description: 'email of the commit user'
+    required: false
+    default: user@domain.com
+  name:
+    description: 'name of the commit user'
+    required: false
+    default: CI
 runs:
   using: "composite"
   steps:
@@ -25,8 +33,8 @@ runs:
 
     - name: commit new version file
       run: |
-        git config --global user.email "emanuel@merckgroup.com"
-        git config --global user.name "Emanuel Merck"
+        git config --global user.email "${{ email }}"
+        git config --global user.name "${{ name }}"
         git add ${{ inputs.file }}
         git commit -m "chore: versioning via CI [skip ci]"
         git push
