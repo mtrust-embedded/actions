@@ -34,8 +34,8 @@ runs:
         [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
 
         npm install -g standard-version > /dev/null 2>&1
-        git config --global user.email "${{ email }}"
-        git config --global user.name "${{ name }}""
+        git config --global user.email "${{ inputs.email }}"
+        git config --global user.name "${{ inputs.name }}""
         current_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
         standard-version --skip.commit > /dev/null 2>&1
         new_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
