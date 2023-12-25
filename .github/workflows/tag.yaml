@@ -21,7 +21,7 @@ jobs:
           node-version: '16'
 
       - id: versioning
-        uses: ./actions/version
+        uses: ./version
     outputs:
       version: ${{ steps.versioning.outputs.new_version }}    
       skip: ${{ steps.versioning.outputs.skip }}
@@ -40,6 +40,6 @@ jobs:
             submodules: recursive
 
       - name: Tagging new version
-        uses: ./actions/tag
+        uses: ./tag
         with: 
           version: ${{ needs.version.outputs.version }}
