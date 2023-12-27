@@ -21,6 +21,10 @@ runs:
       run: pip install --upgrade platformio
       shell: bash
 
+    - name: List packages
+      run: pio pkg list
+      shell: bash
+
     - name: Build PlatformIO Project
       run: make ${{ inputs.makefile_action }}
       shell: bash
