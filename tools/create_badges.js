@@ -13,7 +13,7 @@ function replaceBetweenMarkers(filePath, content) {
             return;
         }
 
-        const startMarker = '### Package Dependencies';
+        const startMarker = '## Package Dependencies';
         const endMarker = '-----';
 
         const startIndex = data.indexOf(startMarker);
@@ -39,8 +39,11 @@ function replaceBetweenMarkers(filePath, content) {
     });
 } 
 
-// Execute the command to get package list
-exec('pio pkg list --only-libraries -e example', (error, stdout, stderr) => {
+// Get the parameter passed to the script
+const parameter = process.argv[2]; // Assuming the parameter is passed as the first command-line argument
+
+// Execute the command to get package list with the provided parameter
+exec(`pio pkg list --only-libraries -e ${parameter}`, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error executing command: ${error.message}`);
     return;
