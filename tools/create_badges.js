@@ -3,6 +3,7 @@ const fs = require('fs');
 
 // Function to generate shields.io badge URL
 function generateBadge(name, version, logo) {
+  name = name.replace(/ /g, "_");
   return `[![Library](https://img.shields.io/badge/${name}-${version}-0F69AF?logo=${logo}&logoColor=AAA)](#)  `;
 }
 
