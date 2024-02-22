@@ -1,13 +1,13 @@
-name: 'Versioning'
-description: 'Create a new semantic version'
+name: "Versioning"
+description: "Create a new semantic version"
 
 inputs:
-  email: 
-    description: 'email of the commit user'
+  email:
+    description: "email of the commit user"
     required: false
     default: user@domain.com
   name:
-    description: 'name of the commit user'
+    description: "name of the commit user"
     required: false
     default: CI
 
@@ -36,9 +36,9 @@ runs:
         npm install -g standard-version > /dev/null 2>&1
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.name }}"
-        current_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
+        current_version=$(git describe --tags --abbrev=0 | cut -b 2-7)
         standard-version --skip.commit > /dev/null 2>&1
-        new_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
+        new_version=$(git describe --tags --abbrev=0 | cut -b 2-7)
         echo
         echo "Current version:    $current_version"
         echo "New version set to: $new_version"
