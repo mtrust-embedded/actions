@@ -17,16 +17,12 @@ inputs:
     description: 'RSA public'
     required: true
 runs:
-  steps:
-    - run: |
-        mkdir -p $HOME/.ssh
-        echo "${{ inputs.id_rsa }}" > $HOME/.ssh/id_rsa
-        chmod 400 $HOME/.ssh/id_rsa
-        echo "${{ inputs.id_rsa_pub }}" > $HOME/.ssh/id_rsa.pub
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.github_token }}
     - ${{ inputs.assignee }}
     - ${{ inputs.project_path }}
+    - ${{ inputs.id_rsa_pub }}
+    - ${{ inputs.id_rsa }}
   entrypoint: "/app/entrypoint.sh"
