@@ -33,6 +33,8 @@ runs:
         # rename package.json if existst to avoid collision with standard-version
         [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
 
+        echo "Current branch is: ${GITHUB_REF##*/}"
+
         npm install -g standard-version > /dev/null 2>&1
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.name }}"
