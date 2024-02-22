@@ -1,16 +1,16 @@
-name: 'Versioning'
-description: 'Create a new tag with sematic version'
+name: "Versioning"
+description: "Create a new tag with sematic version"
 
 inputs:
   version:
-    description: 'version to be tagged'
+    description: "version to be tagged"
     required: true
-  email: 
-    description: 'email of the commit user'
+  email:
+    description: "email of the commit user"
     required: false
     default: user@domain.com
   name:
-    description: 'name of the commit user'
+    description: "name of the commit user"
     required: false
     default: CI
 
@@ -19,11 +19,12 @@ runs:
   steps:
     - name: Pushing tag
       run: |
+        echo "Current branch is: ${GITHUB_REF##*/}"
         echo
         echo "Version published with ${{ inputs.version }}"
         echo
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.name }}"
         git tag v${{ inputs.version }}
-        git push origin v${{ inputs.version }}
+        git push origin ${GITHUB_REF##*/} v${{ inputs.version }}
       shell: bash
