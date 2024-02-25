@@ -7,16 +7,5 @@ inputs:
     required: true
 
 runs:
-  using: "composite"
-  steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
-      
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-        
-    - name: Execute Node.js script
-      run: node $GITHUB_WORKSPACE/index.js ${{ inputs.gh_pages_url }}
-      shell: bash
+  using: 'node20'
+  main: 'index.js'
