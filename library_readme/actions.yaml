@@ -1,0 +1,29 @@
+name: 'Generate Readme for Library'
+
+inputs:
+  gh_pages_url:
+    description: 'github pages url'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Execute Node.js script
+      run: |
+        const fs = require('fs');
+        
+        // Your Node.js script logic goes here
+        // For example, reading a JSON file
+        const filePath = 'library.json';
+        try {
+          const jsonData = fs.readFileSync(filePath, 'utf8');
+          const data = JSON.parse(jsonData);
+          console.log(data);
+        } catch (err) {
+          console.error('Error reading JSON file:', err);
+        }
