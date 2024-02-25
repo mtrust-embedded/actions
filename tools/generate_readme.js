@@ -15,8 +15,9 @@ try {
 
   const ci_badges = fs.readFileSync('docs/ci-badges.md', 'utf8');
   const dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
+  const coverage = fs.readFileSync('docs/coverage.txt', 'utf8');
 
-  fs.writeFileSync('Readme.md', `[Pages](${url})\n ${ci_badges}\n ${dep_badges}`, 'utf8');
+  fs.writeFileSync('Readme.md', '- [Coverage Report](' + url + '/coverage/html)\n   - [Doxygen](' + url + '/doxygen)\n' + ci_badges + '\n   ' + dep_badges + '\n   ### Coverage\n   ```' + coverage + '```', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
