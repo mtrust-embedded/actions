@@ -20,7 +20,7 @@ try {
   const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}/doxygen/html)`;
   const code_coverage = `[![GCov](https://img.shields.io/badge/gcov-Coverage_Report-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
 
-  fs.writeFileSync('Readme.md', doxygen_link + code_coverage + '\n   ' + ci_badges + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
+  fs.writeFileSync('Readme.md', ci_badges + " " + doxygen_link + " " + code_coverage + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
