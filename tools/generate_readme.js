@@ -13,7 +13,7 @@ try {
   const data = JSON.parse(jsonData);
   console.log(data);
 
-  fs.writeFileSync('README.md', `[Pages](${url})   # Data from JSON File\n\n\`\`\`\n${JSON.stringify(data, null, 2)}\n\`\`\`\n`, 'utf8');
+  fs.writeFileSync('Readme.md', `[Pages](${url})   # Data from JSON File\n\n\`\`\`\n${JSON.stringify(data, null, 2)}\n\`\`\`\n`, 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
