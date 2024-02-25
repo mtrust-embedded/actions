@@ -13,7 +13,10 @@ try {
   const data = JSON.parse(jsonData);
   console.log(data);
 
-  fs.writeFileSync('Readme.md', `[Pages](${url})   # Data from JSON File\n\n\`\`\`\n${JSON.stringify(data, null, 2)}\n\`\`\`\n`, 'utf8');
+  const ci_badges = fs.readFileSync('docs/ci-badges.md', 'utf8');
+  const dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
+
+  fs.writeFileSync('Readme.md', `[Pages](${url})\n ${ci_badges}\n ${dep_badges}`, 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);

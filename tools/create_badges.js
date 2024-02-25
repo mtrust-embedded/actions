@@ -7,39 +7,6 @@ function generateBadge(name, version, logo) {
   return `[![Library](https://img.shields.io/badge/${name}-${version}-0F69AF?logo=${logo}&logoColor=AAA)](#)  `;
 }
 
-function replaceBetweenMarkers(filePath, content) {
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading file:', err);
-            return;
-        }
-
-        const startMarker = '## Package Dependencies';
-        const endMarker = '-----';
-
-        const startIndex = data.indexOf(startMarker);
-        const endIndex = data.indexOf(endMarker);
-
-        if (startIndex === -1 || endIndex === -1 || endIndex < startIndex) {
-            console.error('Markers not found or in incorrect order');
-            return;
-        }
-
-        const contentBefore = data.substring(0, startIndex + startMarker.length);
-        const contentAfter = data.substring(endIndex);
-
-        const modifiedContent = contentBefore + '\n' + content + '\n' + contentAfter;
-
-        fs.writeFile(filePath, modifiedContent, 'utf8', (err) => {
-            if (err) {
-                console.error('Error writing file:', err);
-                return;
-            }
-            console.log('Content replaced between markers successfully.');
-        });
-    });
-} 
-
 // Get the parameter passed to the script
 const parameter = process.argv[2]; // Assuming the parameter is passed as the first command-line argument
 
@@ -73,5 +40,6 @@ exec(`pio pkg list --only-libraries -e ${parameter}`, (error, stdout, stderr) =>
     content += badgeURL;
   });
   console.log(content);
-  replaceBetweenMarkers("./Readme.md", content);
+  fs.writeFileSync('docs/dep_badges.md', "### Dependencies\n  " + content, 'utf8');
+  
 });
