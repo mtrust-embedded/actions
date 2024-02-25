@@ -40,6 +40,6 @@ exec(`pio pkg list --only-libraries -e ${parameter}`, (error, stdout, stderr) =>
     content += badgeURL;
   });
   console.log(content);
-  fs.writeFileSync('docs/dep_badges.md', "### Dependencies\n  " + content, 'utf8');
+  fs.writeFileSync('docs/dep-badges.md', "### Dependencies\n  " + content, 'utf8');
   
 });
