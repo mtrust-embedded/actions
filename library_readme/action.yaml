@@ -1,12 +1,23 @@
 name: 'Generate Readme for Library'
 description: 'Generating a Readme.md based on a Library.json file for PlatformIO libraries.'
 
-
 inputs:
   gh_pages_url:
     description: 'github pages url'
     required: true
 
 runs:
-  using: 'node20'
-  main: 'index.js'
+  using: "composite"
+  steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20'
+        
+    - name: Execute Node.js script
+      run: node index.js ${{ inputs.gh_pages_url }}
+      working-directory: ${{ github.workspace }}
+      shell: bash
