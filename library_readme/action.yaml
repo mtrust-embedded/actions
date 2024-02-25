@@ -18,6 +18,5 @@ runs:
         node-version: '20'
         
     - name: Execute Node.js script
-      run: node index.js ${{ inputs.gh_pages_url }}
-      working-directory: ${{ github.workspace }}
+      run: node $GITHUB_WORKSPACE/index.js ${{ inputs.gh_pages_url }}
       shell: bash
