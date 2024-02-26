@@ -47,7 +47,7 @@ try {
   const coverage_badge = coveragePercentage(url);
 
   
-  fs.writeFileSync('Readme.md', ci_badges + " " + coverage_badge + " " + doxygen_link + " " + code_coverage + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
+  fs.writeFileSync('Readme.md', ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
