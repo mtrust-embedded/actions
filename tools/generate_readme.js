@@ -8,6 +8,28 @@ if (!url) {
 }
 const filePath = 'library.json';
 
+const coveragePercentage = (url) => {
+
+  const lines = fs.readFileSync('docs/coverage.txt', 'utf8');
+
+  // Find the line containing the total coverage
+  const totalLineIndex = lines.findIndex(line => line.includes('TOTAL'));
+
+  if (totalLineIndex !== -1) {
+    const totalLine = lines[totalLineIndex];
+    const totalPercentageMatch = totalLine.match(/\d+%$/);
+
+    if (totalPercentageMatch) {
+      const totalPercentage = parseFloat(totalPercentageMatch[0]);
+      return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
 try {
   const jsonData = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(jsonData);
@@ -18,9 +40,11 @@ try {
   const coverage = fs.readFileSync('docs/coverage.md', 'utf8');
 
   const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}/doxygen/html)`;
-  const code_coverage = `[![GCov](https://img.shields.io/badge/gcov-Coverage_Report-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
 
-  fs.writeFileSync('Readme.md', ci_badges + " " + doxygen_link + " " + code_coverage + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
+  const coverage_badge = coveragePercentage(url);
+
+  
+  fs.writeFileSync('Readme.md', ci_badges + " " + coverage_badge + " " + doxygen_link + " " + code_coverage + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
