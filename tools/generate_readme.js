@@ -9,8 +9,11 @@ if (!url) {
 const filePath = 'library.json';
 
 const coveragePercentage = (url) => {
-
-  const lines = fs.readFileSync('docs/coverage.txt', 'utf8');
+  // Read the content of the file
+  const content = fs.readFileSync('docs/coverage.txt', 'utf8');
+  
+  // Split the content into lines
+  const lines = content.split('\n');
 
   // Find the line containing the total coverage
   const totalLineIndex = lines.findIndex(line => line.includes('TOTAL'));
@@ -23,10 +26,10 @@ const coveragePercentage = (url) => {
       const totalPercentage = parseFloat(totalPercentageMatch[0]);
       return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
     } else {
-      return 0;
+      return 'Unable to parse total coverage percentage.';
     }
   } else {
-    return 0;
+    return 'TOTAL line not found in coverage report.';
   }
 }
 
