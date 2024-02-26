@@ -15,7 +15,7 @@ try {
 
   const ci_badges = fs.readFileSync('docs/ci-badges.md', 'utf8');
   const dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
-  const coverage = fs.readFileSync('docs/coverage.txt', 'utf8');
+  const coverage = fs.readFileSync('docs/coverage.md', 'utf8');
 
   const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}/doxygen/html)`;
   const code_coverage = `[![GCov](https://img.shields.io/badge/gcov-Coverage_Report-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
