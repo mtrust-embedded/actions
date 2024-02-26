@@ -24,7 +24,7 @@ const coveragePercentage = (url) => {
 
     if (totalPercentageMatch) {
       const totalPercentage = parseFloat(totalPercentageMatch[0]);
-      return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
+      return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%25-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
     } else {
       return 'Unable to parse total coverage percentage.';
     }
