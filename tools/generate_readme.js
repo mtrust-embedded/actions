@@ -60,6 +60,13 @@ try {
     console.error("Skipped coverage report")
   }
 
+  var info = ""
+  try{
+    info = fs.readFileSync('docs/info.md', 'utf8');
+  } catch(err){
+    console.error("Skipped info report")
+  }
+
   const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}doxygen/html)`;
 
   var coverage_badge = ""
@@ -73,7 +80,7 @@ try {
   readme_header +=  `## ${data.name} ${version}\n   `
   readme_header +=  `${data.description}\n   `
 
-  fs.writeFileSync('Readme.md', readme_header + "\n   " + ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ' + coverage + '', 'utf8');
+  fs.writeFileSync('Readme.md', readme_header + "\n   " + ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ' + info + '\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
