@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const url = process.argv[2];
+const version = process.argv[3];
 
 if (!url) {
   console.error('Please provide the github pages url.');
@@ -68,7 +69,11 @@ try {
     console.error("Skipped coverage badge")
   }
 
-  fs.writeFileSync('Readme.md', ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ' + coverage + '', 'utf8');
+  var readme_header = ""
+  readme_header +=  `## ${jsonData.name} ${version}\n   `
+  readme_header +=  `${jsonData.description}\n   `
+
+  fs.writeFileSync('Readme.md', readme_header + "\n   " + ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
   console.error('Error reading JSON file:', err);
