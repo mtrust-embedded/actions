@@ -38,15 +38,36 @@ try {
   const data = JSON.parse(jsonData);
   console.log(data);
 
-  const ci_badges = fs.readFileSync('docs/ci-badges.md', 'utf8');
-  const dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
-  const coverage = fs.readFileSync('docs/coverage.md', 'utf8');
+  var ci_badges = ""
+  try{
+    ci_badges = fs.readFileSync('docs/ci-badges.md', 'utf8');
+  } catch(err){
+    console.error("Skipped ci badges")
+  }
+ 
+  var dep_badges = ""
+  try{
+    dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
+  } catch(err){
+    console.error("Skipped dep badges")
+  }
+
+  var coverage = ""
+  try{
+    coverage = fs.readFileSync('docs/coverage.md', 'utf8');
+  } catch(err){
+    console.error("Skipped coverage report")
+  }
 
   const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}/doxygen/html)`;
 
-  const coverage_badge = coveragePercentage(url);
+  var coverage_badge = ""
+  try{ 
+    coverage_badge =  coveragePercentage(url);
+  } catch(err){
+    console.error("Skipped coverage badge")
+  }
 
-  
   fs.writeFileSync('Readme.md', ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ### Coverage\n   ' + coverage + '', 'utf8');
   
 } catch (err) {
