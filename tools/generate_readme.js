@@ -70,8 +70,8 @@ try {
   }
 
   var readme_header = ""
-  readme_header +=  `## ${jsonData.name} ${version}\n   `
-  readme_header +=  `${jsonData.description}\n   `
+  readme_header +=  `## ${data.name} ${version}\n   `
+  readme_header +=  `${data.description}\n   `
 
   fs.writeFileSync('Readme.md', readme_header + "\n   " + ci_badges + " " + coverage_badge + " " + doxygen_link + '\n   ' + dep_badges + '\n   ' + coverage + '', 'utf8');
   
