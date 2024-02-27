@@ -24,7 +24,7 @@ const coveragePercentage = (url) => {
 
     if (totalPercentageMatch) {
       const totalPercentage = parseFloat(totalPercentageMatch[0]);
-      return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%25-0F69AF?logo=coveralls&logoColor=AAA)](${url}/coverage)`;
+      return `[![GCov](https://img.shields.io/badge/gcov-${totalPercentage}%25-0F69AF?logo=coveralls&logoColor=AAA)](${url}coverage)`;
     } else {
       return 'Unable to parse total coverage percentage.';
     }
@@ -42,7 +42,7 @@ try {
   const dep_badges = fs.readFileSync('docs/dep-badges.md', 'utf8');
   const coverage = fs.readFileSync('docs/coverage.md', 'utf8');
 
-  const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}/doxygen/html)`;
+  const doxygen_link = `[![Doxygen](https://img.shields.io/badge/Doxygen-Code_Documentation-0F69AF?logo=doxygen&logoColor=AAA)](${url}doxygen/html)`;
 
   const coverage_badge = coveragePercentage(url);
 
