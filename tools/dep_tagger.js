@@ -32,20 +32,22 @@ const replaceContentInFile = (filePath, contentToReplace, newContent) => {
 };
 
 
-const get_libs = () => {
-    const result = execSync('pio pkg list -e embedded --only-libraries').toString().trim();
+const get_libs = (environment) => {
+    const result = execSync('pio pkg list -e ' + environment + ' --only-libraries').toString().trim();
     const libraries = processDependencies(result);
-    return libraries
+    console.log(libraries);
+    return libraries;
 }
 
 // Main function
 const main = () => {
 
     const cliCommand = process.argv[2];
+    const environment = process.argv[3];
 
     if( cliCommand == 'tag'){
         // iterate over the libraries map
-        for (const [key, lib] of Object.entries(get_libs())) {
+        for (const [key, lib] of Object.entries(get_libs(environment))) {
             // check if this is a mtrust library from github
             if(lib.url.includes('github.com:merckgroup/mtrust')){
                 console.log(lib);
@@ -58,7 +60,7 @@ const main = () => {
         }
     } else {
         // iterate over the libraries map
-        for (const [key, lib] of Object.entries(get_libs())) {
+        for (const [key, lib] of Object.entries(get_libs(environment))) {
             // check if this is a mtrust library from github
             if(lib.url.includes('github.com:merckgroup/mtrust')){
                 console.log(lib);
