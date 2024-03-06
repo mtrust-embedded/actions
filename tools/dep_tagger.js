@@ -56,19 +56,7 @@ const main = () => {
                 console.log(old_url);
                 console.log(new_url);
                 replaceContentInFile('platformio.ini', old_url, new_url);
-            }
-        }
-    } else {
-        // iterate over the libraries map
-        for (const [key, lib] of Object.entries(get_libs(environment))) {
-            // check if this is a mtrust library from github
-            if(lib.url.includes('github.com:merckgroup/mtrust')){
-                console.log(lib);
-                const old_url = lib.url.split("+")[1].replace(')', '')
-                const new_url = old_url.split("#")[0] + '#' + cliCommand;
-                console.log(old_url);
-                console.log(new_url);
-                replaceContentInFile('platformio.ini', old_url, new_url);
+                replaceContentInFile('library.json', old_url, new_url);
             }
         }
     }
