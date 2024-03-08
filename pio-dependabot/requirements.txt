@@ -1,4 +1,0 @@
-platformio
-PyGithub
-GitPython
-colorlog
