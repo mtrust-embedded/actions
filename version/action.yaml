@@ -1,13 +1,13 @@
-name: 'Versioning'
-description: 'Create a new semantic version'
+name: "Versioning"
+description: "Create a new semantic version"
 
 inputs:
-  email: 
-    description: 'email of the commit user'
+  email:
+    description: "email of the commit user"
     required: false
     default: user@domain.com
   name:
-    description: 'name of the commit user'
+    description: "name of the commit user"
     required: false
     default: CI
 
@@ -25,14 +25,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Generate Version
-      id: generate_version
+    - name: Prepare environment
+      shell: bash
       run: |
-        # delete unneccesary files
+        # delete unnecessary files
         [ -f package-lock.json ] && rm package-lock.json > /dev/null 2>&1
-        # rename package.json if existst to avoid collision with standard-version
+        # rename package.json if exists to avoid collision with standard-version
         [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
 
+    - name: Install standard version and setup git
+      shell: bash
+      run: |
         npm install -g standard-version > /dev/null 2>&1
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.name }}"
@@ -44,9 +47,16 @@ runs:
         echo "New version set to: $new_version"
         echo
 
+    - name: Cleanup environment
+      shell: bash
+      run: |
         # rename package.json back to original
         [ -f package.json.back ] && mv package.json.back package.json
 
+    - name: Export environment
+      id: generate_version
+      shell: bash
+      run: |
         # generate output variables
         echo "old_version_out=$current_version" >> "$GITHUB_OUTPUT"
         echo "new_version_out=$new_version" >> "$GITHUB_OUTPUT"
@@ -56,4 +66,3 @@ runs:
         else
             echo "skip_version_out=false" >> "$GITHUB_OUTPUT"
         fi
-      shell: bash
