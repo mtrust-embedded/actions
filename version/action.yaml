@@ -29,18 +29,17 @@ runs:
       shell: bash
       run: |
         # delete unnecessary files
-        [ -f package-lock.json ] && rm package-lock.json > /dev/null 2>&1
+        [ -f package-lock.json ] && rm package-lock.json
         # rename package.json if exists to avoid collision with standard-version
-        [ -f package.json ] && mv package.json package.json.back > /dev/null 2>&1
-
+        [ -f package.json ] && mv package.json package.json.back
     - name: Install standard version and setup git
       shell: bash
       run: |
-        npm install -g standard-version > /dev/null 2>&1
+        npm install -g standard-version
         git config --global user.email "${{ inputs.email }}"
         git config --global user.name "${{ inputs.name }}"
         current_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
-        standard-version --skip.commit > /dev/null 2>&1
+        standard-version --skip.commit
         new_version=$(git tag --sort=taggerdate | tail -1 | cut -b 2-7)
         echo
         echo "Current version:    $current_version"
